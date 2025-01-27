@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Are You?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+            font-size: 40px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button.jana {
+            background-color: #FF69B4;
+            color: white;
+        }
+        button.jana:hover {
+            background-color: #d94783;
+        }
+        button.nick {
+            background-color: #007BFF;
+            color: white;
+        }
+        button.nick:hover {
+            background-color: #0056b3;
+        }
+        #response {
+            font-size: 30px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+        }
+        #randomWord {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Who Are You?</h1>
+
+    <button class="jana" onclick="selectPerson('Jana')">Jana (TV Girl)</button>
+    <button class="nick" onclick="selectPerson('Nick')">Nick (TV Guy)</button>
+    
+    <p id="response"></p>
+    <p id="randomWord"></p>
+
+    <script>
+        const janaWords = ["Awesome", "Creative", "Smart", "Amazing", "Funny", "Unique", "Talented", "Inspirational", "Brilliant", "Kind"];
+        const nickWords = ["Cool", "Funny", "Strong", "Adventurous", "Smart", "Talented", "Friendly", "Awesome", "Brave", "Creative"];
+
+        function selectPerson(person) {
+            const responseElement = document.getElementById("response");
+            const randomWordElement = document.getElementById("randomWord");
+
+            if (person === "Jana") {
+                responseElement.style.color = "#FF69B4";
+                randomWordElement.style.color = "#FF69B4";
+                responseElement.innerText = "Jana is so cool!";
+                generateRandomWord(janaWords, "Jana");
+            } else if (person === "Nick") {
+                responseElement.style.color = "#007BFF";
+                randomWordElement.style.color = "#007BFF";
+                responseElement.innerText = "Nick is so cool!";
+                generateRandomWord(nickWords, "Nick");
+            }
+        }
+
+        function generateRandomWord(wordsArray, person) {
+            const randomIndex = Math.floor(Math.random() * wordsArray.length);
+            document.getElementById("randomWord").innerText = `${person} is so ${wordsArray[randomIndex]}!`;
+        }
+    </script>
+
+</body>
+</html>
