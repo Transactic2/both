@@ -10,17 +10,23 @@
             text-align: center;
             background-color: #f0f8ff;
             padding: 50px;
+            transition: background-color 0.5s ease;
         }
         h1 {
             color: #333;
             font-size: 40px;
         }
         button {
-            padding: 10px 20px;
-            font-size: 18px;
+            padding: 15px 30px;
+            font-size: 20px;
             border: none;
             cursor: pointer;
+            border-radius: 5px;
             margin: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        button:focus {
+            outline: none;
         }
         button.jana {
             background-color: #FF69B4;
@@ -28,6 +34,7 @@
         }
         button.jana:hover {
             background-color: #d94783;
+            transform: scale(1.1);
         }
         button.nick {
             background-color: #007BFF;
@@ -35,6 +42,7 @@
         }
         button.nick:hover {
             background-color: #0056b3;
+            transform: scale(1.1);
         }
         #response {
             font-size: 30px;
@@ -43,9 +51,9 @@
             margin-top: 20px;
         }
         #randomWord {
-            font-size: 30px;
-            font-weight: bold;
-            margin-top: 20px;
+            font-size: 25px;
+            margin-top: 10px;
+            color: #555;
         }
     </style>
 </head>
@@ -60,19 +68,22 @@
     <p id="randomWord"></p>
 
     <script>
-        const janaWords = ["Awesome", "Beautiful", "Smart", "Amazing", "Funny", "Pretty", "lovely", "Inspirational", "Brilliant", "Kind"];
+        const janaWords = ["Awesome", "Beautiful", "Smart", "Amazing", "Funny", "Pretty", "Lovely", "Inspirational", "Brilliant", "Kind"];
         const nickWords = ["Silly"];
 
         function selectPerson(person) {
             const responseElement = document.getElementById("response");
             const randomWordElement = document.getElementById("randomWord");
+            const bodyElement = document.body;
 
             if (person === "Jana") {
+                bodyElement.style.backgroundColor = "#FFB6C1";
                 responseElement.style.color = "#FF69B4";
                 randomWordElement.style.color = "#FF69B4";
                 responseElement.innerText = "Jana is so cool!";
                 generateRandomWord(janaWords, "Jana");
             } else if (person === "Nick") {
+                bodyElement.style.backgroundColor = "#ADD8E6";
                 responseElement.style.color = "#007BFF";
                 randomWordElement.style.color = "#007BFF";
                 responseElement.innerText = "Nick is so cool!";
